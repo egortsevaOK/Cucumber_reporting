@@ -4,26 +4,29 @@ const Element = require('../utils/base_element');
 class SigninPage extends BasePage {
   constructor() {
     super();
-    this.emailField = new Element('#user-text-field');
-    this.continueButton = new Element('#signin-email-submit-button');
-    this.emailErrorMsg = new Element('.EmailField_errorMessage__2Go2g');
-    this.closeButton = new Element('#registration-close');
+    this.emailField = '#user-text-field';
+    this.continueButton = '#signin-email-submit-button';
+    this.emailErrorMsg = '.EmailField_errorMessage__2Go2g';
+    this.closeButton = '#registration-close';
+    this.loginFrame = '.loginframe';
+    this.LoginIFrame = '#loginIframe';
   };
 
   async checkEmail(email) {
-    const loginFrame = '.loginframe';
-    const LoginIFrame = '#loginIframe';
-    await browser.switchTo().frame(await element(by.css(loginFrame)).getWebElement());
-    await browser.switchTo().frame(await element(by.css(LoginIFrame)).getWebElement());
-    await this.emailField.sendKeys(email);
-    await this.continueButton.waitToBeClickable(3000);
-    return this.continueButton.check();
+    const emailField = new Element(this.emailField);
+    const continueButton = new Element(this.continueButton);
+    await browser.switchTo().frame(await element(by.css(this.loginFrame)).getWebElement());
+    await browser.switchTo().frame(await element(by.css(this.LoginIFrame)).getWebElement());
+    await emailField.sendKeys(email);
+    await continueButton.waitToBeClickable(3000);
+    return continueButton.check();
   };
 
   async close() {
+    const closeButton = new Element(this.closeButton);
     await browser.switchTo().defaultContent();
-    await this.closeButton.waitVisibilityOf(1000);
-    return this.closeButton.click();
+    await closeButton.waitVisibilityOf(1000);
+    return closeButton.click();
   };
 };
 

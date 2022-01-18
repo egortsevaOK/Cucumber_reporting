@@ -8,20 +8,20 @@ When('I open shop.scholastic.com', function() {
 });
 
 When('I hover over {string}', function(category) {
-  return PageFactory.getPage('Home').Header.selectCategory(category);
+  return PageFactory.getPage('Home').Header.selectCategory(category.toUpperCase());
 });
 
 When('I click on {string}', function(subcategory) {
   return PageFactory.getPage('Home').Header.selectSubcategory(subcategory);
 });
 
-When('I sort items by {string}', function(sortOption) {
-    return PageFactory.getPage('Items').sortBy(sortOption);
-});
-
 Then(/^page banner should be '([^"]*)'$/, async function(subcategory) {
   const cartBanner = await PageFactory.getPage('Items').getCartBannerText();
   expect(cartBanner).to.be.equal(subcategory);
+});
+
+When('I sort items by {string}', function(sortOption) {
+    return PageFactory.getPage('Items').sortBy(sortOption);
 });
 
 Then(/^items should be sorted by '([^"]*)'$/, async function(sortOption) {
